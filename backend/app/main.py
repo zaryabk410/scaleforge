@@ -31,11 +31,6 @@ app = FastAPI(title="ScaleForge API", version="1.0.0",
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
-@app.on_event("startup")
-def _startup() -> None:
-    db.init()
-
-
 @app.get("/api/health")
 def health():
     return {"status": "ok"}
