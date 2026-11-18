@@ -1,25 +1,30 @@
 """ScaleForge API: simulator, algorithm labs, practice and progress."""
-from __future__ import annotations
 
 import json
+import os
+import sys
 from typing import Literal, Optional
+
+# Vercel loads this file directly (not as package "app"), so make the package importable
+# and use absolute imports. Works the same under `uvicorn app.main:app`.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from . import db
-from .labs.cache import cache_lab
-from .labs.hashing import consistent_hash_lab, estimate_shards, sharding_lab
-from .labs.quorum import quorum_lab
-from .labs.raft import raft_lab
-from .labs.ratelimit import rate_limit_lab
-from .practice.drills import E_MAP, ESTIMATIONS, I_MAP, INTERVIEWS
-from .practice.quizzes import QUESTIONS, TOPICS
-from .sim.analyzer import review
-from .sim.engine import TYPE_DEFAULTS, SimulationError, simulate
-from .sim.models import SimRequest
-from .sim.scenarios import SCENARIO_MAP, SCENARIOS, grade
+from app import db
+from app.labs.cache import cache_lab
+from app.labs.hashing import consistent_hash_lab, estimate_shards, sharding_lab
+from app.labs.quorum import quorum_lab
+from app.labs.raft import raft_lab
+from app.labs.ratelimit import rate_limit_lab
+from app.practice.drills import E_MAP, ESTIMATIONS, I_MAP, INTERVIEWS
+from app.practice.quizzes import QUESTIONS, TOPICS
+from app.sim.analyzer import review
+from app.sim.engine import TYPE_DEFAULTS, SimulationError, simulate
+from app.sim.models import SimRequest
+from app.sim.scenarios import SCENARIO_MAP, SCENARIOS, grade
 
 app = FastAPI(title="ScaleForge API", version="1.0.0",
               description="System design simulator, algorithm labs and practice engine.")
